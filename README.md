@@ -10,45 +10,7 @@ Practice tools for TETR.IO's 40 LINES mode, as a static site for GitHub Pages:
 
 Live site: https://mithilmishra.github.io/40Lsprintlab/
 
-## Put it on GitHub Pages
-
-The repository already contains the built site, so there's no build step to deploy.
-
-1. On GitHub, create a **public** repository named `40Lsprintlab` under `mithilmishra`. Leave it empty (no README or license).
-2. Push this folder from a terminal:
-   ```sh
-   cd 40Lsprintlab
-   git init -b main
-   git add .
-   git commit -m "40L Sprint Lab beta"
-   git remote add origin https://github.com/mithilmishra/40Lsprintlab.git
-   git push -u origin main
-   ```
-3. In the repository, open **Settings → Pages**. Under **Build and deployment**, set **Source** to **Deploy from a branch**, then pick **main** and **/ (root)** and press **Save**.
-4. After a minute or two the site is at **https://mithilmishra.github.io/40Lsprintlab/**. The Pages settings page shows the link once it's live.
-
-Then open the site, go to **Run log**, type a username and press **Fetch my runs**:
-
-- If the runs load and the card says **straight from TETR.IO**, you're done.
-- If it says it **couldn't reach TETR.IO**, set up the relay below (about 5 minutes, free). Until then, visitors can still use the copy-and-paste import that the site opens for them.
-
-## Optional: the TETR.IO relay
-
-Browsers only let a page read another site's data when that site allows it. If TETR.IO doesn't allow requests from your GitHub Pages address, the small relay in `worker/` fetches the same public data for the site. It only forwards the two read-only 40L endpoints the site uses, only for your site, and caches answers for a minute.
-
-**From the Cloudflare dashboard (no tools needed):**
-
-1. Sign in at https://dash.cloudflare.com (a free account is fine) and open **Workers & Pages**.
-2. **Create** → **Create Worker**, name it `tetrio-proxy`, press **Deploy**.
-3. Press **Edit code**, replace everything with the contents of `worker/tetrio-proxy.js`, and press **Deploy** again.
-4. Copy the worker's address, something like `https://tetrio-proxy.your-name.workers.dev`.
-5. In this repo, edit `config.js` and set `proxy: 'https://tetrio-proxy.your-name.workers.dev'`. Commit the change (you can do this in GitHub's web editor).
-
-**Or with the command line:** `cd worker && npx wrangler deploy`, then do step 5.
-
-The relay only answers requests from `https://mithilmishra.github.io` (and `localhost` for testing). To allow another address, set the `ALLOWED_ORIGINS` variable in the worker's settings (comma-separated).
-
-## Changing the site
+## Site Structure
 
 The files at the top level are the built site. The readable sources are in `src/`:
 
@@ -77,7 +39,7 @@ Commit the rebuilt files. `config.js` is the one file you can edit without rebui
 
 **If you rename the repository or add a custom domain**, update the address in `tools/build.mjs` (`SITE_URL`), `404.html`, `sitemap.xml` and the relay's `ALLOWED_ORIGINS`, then rebuild. If the relay is on your own domain instead of `workers.dev`, also add that domain to `connect-src` in `src/index.html`.
 
-## What's tuned for speed and smoothness
+## Features
 
 - **Exact input timing.** Key presses use the browser's own event timestamps, and the game clock is brought up to that moment before the input is applied. DAS, ARR, DCD, gravity and lock delay behave the same at 60 Hz, 144 Hz or 240 Hz, and a hard drop right after DAS charges always lands at the wall.
 - **Cheap frames.** The well, grid and column numbers are drawn once per size and theme and reused. A frame is only repainted when something on the board changed or an effect is playing.

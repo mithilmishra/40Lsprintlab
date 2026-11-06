@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' '{{BOOT_HASH}}'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://ch.tetr.io https://api.anthropic.com https://*.workers.dev; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>40L Sprint Lab (beta)</title>
+<meta name="description" content="Free practice tools for TETR.IO 40 lines: a finesse trainer that times every placement, coached sprints with a suggested spot for every piece, your run history with trends, and a practice plan.">
+<link rel="canonical" href="{{SITE_URL}}">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#181525" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sprint Lab">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="40L Sprint Lab">
+<meta property="og:title" content="40L Sprint Lab: practice tools for TETR.IO 40 lines">
+<meta property="og:description" content="A finesse trainer that times every placement, coached 40L sprints, your run history with trends, and a plan for your next PB.">
+<meta property="og:url" content="{{SITE_URL}}">
+<meta property="og:image" content="{{SITE_URL}}og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="40L Sprint Lab: a TETR.IO board with a piece lining up with its outlined target spot.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/chakra-petch-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/{{CSS}}">
+<script>{{BOOT}}</script>
+<script src="config.js"></script>
+<script src="assets/{{JS}}" defer></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"40L Sprint Lab","url":"{{SITE_URL}}","applicationCategory":"GameApplication","operatingSystem":"Any","description":"Practice tools for TETR.IO 40 lines: finesse trainer, coached sprints, run history and a practice plan.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+</head>
+<body>
+<noscript><p class="noscript">40L Sprint Lab needs JavaScript to run the trainer and the sprint board.</p></noscript>
+{{BODY}}
+</body>
+</html>

@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-qdQwSm4JROYFYIO0kzn8bzpm8Ckros6EwStmTe0dStQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://ch.tetr.io https://api.anthropic.com https://*.workers.dev; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>40L Sprint Lab (beta)</title>
+<meta name="description" content="Free practice tools for TETR.IO 40 lines: a finesse trainer that times every placement, coached sprints with a suggested spot for every piece, your run history with trends, and a practice plan.">
+<link rel="canonical" href="https://mithilmishra.github.io/40Lsprintlab/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#181525" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sprint Lab">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="40L Sprint Lab">
+<meta property="og:title" content="40L Sprint Lab: practice tools for TETR.IO 40 lines">
+<meta property="og:description" content="A finesse trainer that times every placement, coached 40L sprints, your run history with trends, and a plan for your next PB.">
+<meta property="og:url" content="https://mithilmishra.github.io/40Lsprintlab/">
+<meta property="og:image" content="https://mithilmishra.github.io/40Lsprintlab/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="40L Sprint Lab: a TETR.IO board with a piece lining up with its outlined target spot.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/chakra-petch-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/app.8f3b9158df.css">
+<script>(function(){var t=document.documentElement;try{var e=JSON.parse(localStorage.getItem("sl.theme")||'"system"');(e==="light"||e==="dark")&&t.setAttribute("data-theme",e),!localStorage.getItem("sl.welcomed")&&!localStorage.getItem("sl.data")&&t.classList.add("first-visit")}catch(a){t.classList.add("first-visit")}})();</script>
+<script src="config.js"></script>
+<script src="assets/app.653be4f7e2.js" defer></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"40L Sprint Lab","url":"https://mithilmishra.github.io/40Lsprintlab/","applicationCategory":"GameApplication","operatingSystem":"Any","description":"Practice tools for TETR.IO 40 lines: finesse trainer, coached sprints, run history and a practice plan.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+</head>
+<body>
+<noscript><p class="noscript">40L Sprint Lab needs JavaScript to run the trainer and the sprint board.</p></noscript>
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <div class="brand">
+        <span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <div>
+          <h1>40L Sprint Lab<span class="beta">Beta</span></h1>
+          <p class="sub">Finesse drills, sprints, a run log and a plan for any TETR.IO 40L player</p>
+        </div>
+      </div>
+      <div class="pb-chip" id="pbChip">PB <b>—</b></div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab" role="tab" id="t-trainer" data-tab="trainer" aria-controls="trainer">Trainer</button>
+      <button class="tab" role="tab" id="t-sprint" data-tab="sprint" aria-controls="sprint">Sprint</button>
+      <button class="tab" role="tab" id="t-log" data-tab="log" aria-controls="log">Run log</button>
+      <button class="tab" role="tab" id="t-plan" data-tab="plan" aria-controls="plan">Plan</button>
+      <button class="tab" role="tab" id="t-chart" data-tab="chart" aria-controls="chart">Finesse chart</button>
+      <button class="tab" role="tab" id="t-options" data-tab="options" aria-controls="options">Settings</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="store-note" id="storeNote" role="status" hidden>This browser isn't saving data for this page, which usually means a private window or blocked site data. Everything still works, but imported runs and Trainer progress reset when you close the tab.</p>
+  <section class="card welcome" id="welcome" aria-labelledby="wTitle">
+    <div class="w-head"><h2 id="wTitle">New here? Pick a place to start</h2><button type="button" class="link" id="wClose">Hide</button></div>
+    <div class="w-grid">
+      <button type="button" class="w-item" data-go="trainer"><span class="eyebrow">Trainer</span><b>Drill finesse</b><span>Place each piece on its outlined spot in the fewest presses. Pieces you miss or place slowly come back more often.</span></button>
+      <button type="button" class="w-item" data-go="sprint"><span class="eyebrow">Sprint</span><b>Play a coached 40L</b><span>A full 40-line run with a suggested spot for every piece, then a breakdown of where the time went.</span></button>
+      <button type="button" class="w-item" data-go="log"><span class="eyebrow">Run log</span><b>Import your TETR.IO runs</b><span>Enter your username to pull in your run history, see your trends and get a plan built from it.</span></button>
+    </div>
+    <p class="muted small">Copy your TETR.IO handling (DAS, ARR, DCD, SDF) and keys into <button type="button" class="link" data-go="options">Settings</button> first, so drills feel the same as the real game.</p>
+  </section>
+
+  <!-- TRAINER -->
+  <section class="panel" id="trainer" role="tabpanel" aria-labelledby="t-trainer">
+    <div class="trainer">
+      <div class="field-col">
+        <div class="field" id="field" tabindex="0" aria-label="Drill board. Focus it, then use your keys to place the piece on the outlined spot.">
+          <canvas id="board"></canvas>
+          <div class="overlay" id="overlay">
+            <div class="ov-box">
+              <b id="ovTitle">Click the board</b>
+              <span>Drop each piece on the outlined spot with as few key presses as you can.</span>
+              <span class="ov-keys" id="ovKeys"></span>
+            </div>
+          </div>
+        </div>
+        <div class="board-bar">
+          <button type="button" class="btn ghost fs-btn" id="fsBtn">Full screen</button>
+          <button type="button" class="btn ghost fs-btn" id="toSettings">Board &amp; drill settings</button>
+        </div>
+        <div class="touch" id="touch" aria-label="Touch controls">
+          <button type="button" tabindex="-1" data-act="left" aria-label="Move left">←</button>
+          <button type="button" tabindex="-1" data-act="right" aria-label="Move right">→</button>
+          <button type="button" tabindex="-1" data-act="ccw" aria-label="Rotate counter-clockwise">↺</button>
+          <button type="button" tabindex="-1" data-act="cw" aria-label="Rotate clockwise">↻</button>
+          <button type="button" tabindex="-1" data-act="r180" aria-label="Rotate 180">180</button>
+          <button type="button" tabindex="-1" data-act="soft" aria-label="Soft drop">↓</button>
+          <button type="button" tabindex="-1" data-act="hard" class="drop">Drop</button>
+        </div>
+      </div>
+
+      <div class="console">
+        <div class="card now">
+          <div class="now-main">
+            <div class="eyebrow">Target</div>
+            <div class="tgt" id="tgtLabel">—</div>
+            <div class="opt-line"><span id="optText">Optimal: —</span><span class="keys" id="hintKeys"></span></div>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><div class="k">Finesse</div><div class="v" id="stFin">—</div><div class="s" id="stFinS">clean pieces</div></div>
+          <div class="stat"><div class="k">Keys / piece</div><div class="v" id="stKpp">—</div><div class="s" id="stKppS">incl. hard drop</div></div>
+          <div class="stat"><div class="k">Pace</div><div class="v" id="stPps">—</div><div class="s">pieces per second</div></div>
+          <div class="stat"><div class="k">Faults</div><div class="v" id="stFault">0</div><div class="s">extra keys or slides</div></div>
+          <div class="stat"><div class="k">Misdrops</div><div class="v" id="stMiss">0</div><div class="s">wrong spot</div></div>
+          <div class="stat"><div class="k">Down pat</div><div class="v" id="stMastered">0</div><div class="s" id="stMasteredS">placements mastered</div></div>
+        </div>
+
+        <div class="card feed-card">
+          <div class="card-head"><h3>Last pieces</h3><button type="button" class="link" id="resetSession">Reset session</button></div>
+          <div class="upnext" id="upNext" hidden></div>
+          <ol class="feed" id="feed"><li class="empty">Each placement shows up here. Anything you miss comes with the optimal inputs.</li></ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPRINT -->
+  <section class="panel" id="sprint" role="tabpanel" aria-labelledby="t-sprint" hidden>
+    <div class="sprint" data-size="large">
+      <div class="sp-play">
+        <div class="sp-box sp-hold"><div class="eyebrow">Hold</div><canvas id="spHold" width="128" height="80"></canvas></div>
+        <div class="card sp-live">
+          <div class="eyebrow">Time</div>
+          <div class="sp-clock" id="spClock">0.000</div>
+          <dl class="sp-kv">
+            <div><dt>Lines</dt><dd id="spLines">0 / 40</dd></div>
+            <div><dt>PPS</dt><dd id="spPps">—</dd></div>
+            <div><dt>KPP</dt><dd id="spKpp">—</dd></div>
+            <div><dt>Faults</dt><dd id="spFaults">0</dd></div>
+          </dl>
+        </div>
+        <div class="sp-center">
+          <div class="sp-field" id="spField">
+            <canvas id="spBoard"></canvas>
+            <div class="sp-overlay" id="spOverlay">
+              <div class="ov-box">
+                <b id="spOvTitle">40L Sprint</b>
+                <span id="spOvSub">Clear 40 lines as fast as you can. Uses your keys and handling from Settings.</span>
+                <div class="sp-ov-btns">
+                  <button type="button" class="btn" id="spStartBtn">Start</button>
+                  <button type="button" class="btn ghost" id="spJump" hidden>See analysis</button>
+                </div>
+                <span class="ov-keys" id="spOvKeys"></span>
+              </div>
+            </div>
+          </div>
+          <div class="sp-hint" id="spHint" hidden></div>
+          <div class="board-bar"><button type="button" class="btn ghost fs-btn" id="spFsBtn">Full screen</button></div>
+          <div class="touch sp-touch" id="spTouch" aria-label="Touch controls">
+            <button type="button" tabindex="-1" data-act="left" aria-label="Move left">←</button>
+            <button type="button" tabindex="-1" data-act="right" aria-label="Move right">→</button>
+            <button type="button" tabindex="-1" data-act="ccw" aria-label="Rotate counter-clockwise">↺</button>
+            <button type="button" tabindex="-1" data-act="cw" aria-label="Rotate clockwise">↻</button>
+            <button type="button" tabindex="-1" data-act="hold" aria-label="Hold">Hold</button>
+            <button type="button" tabindex="-1" data-act="r180" aria-label="Rotate 180">180</button>
+            <button type="button" tabindex="-1" data-act="soft" aria-label="Soft drop">↓</button>
+            <button type="button" tabindex="-1" data-act="hard" class="drop">Drop</button>
+          </div>
+        </div>
+        <div class="sp-box sp-next"><div class="eyebrow">Next</div><canvas id="spNext" width="128" height="400"></canvas></div>
+      </div>
+
+      <div class="sp-analysis" id="spAnalysis">
+        <div class="card sp-empty">
+          <h3>Run analysis</h3>
+          <p class="muted">Finish a run and this fills in: your splits, a bar for every piece showing where you paused, finesse faults with the optimal inputs, and an estimate of how many seconds each habit cost you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="panel" id="options" role="tabpanel" aria-labelledby="t-options" hidden>
+    <div class="sec-head">
+      <div>
+        <h2>Settings</h2>
+        <p class="lede">Board layout, drill options, handling and keys for the Trainer and Sprint. Changes apply right away and are saved in this browser.</p>
+      </div>
+    </div>
+    <div class="opt-grid">
+      <div class="opt-col">
+      <div class="card opt-card">
+        <h3>Board</h3>
+        <div class="opt-row">
+          <div class="opt-label"><b>Size</b><small>Fit window makes the board as tall as the window.</small></div>
+          <div class="seg" id="sizeSeg" role="group" aria-label="Board size">
+            <button type="button" data-size="compact">Compact</button>
+            <button type="button" data-size="large">Large</button>
+            <button type="button" data-size="fit">Fit window</button>
+          </div>
+        </div>
+        <div class="opt-row">
+          <div class="opt-label"><b>Position</b><small>Centered puts the target and stats on the left and your last pieces on the right.</small></div>
+          <div class="seg" id="posSeg" role="group" aria-label="Board position">
+            <button type="button" data-pos="left">Left</button>
+            <button type="button" data-pos="center">Centered</button>
+          </div>
+        </div>
+        <p class="note">Full screen is the button under the board. Esc leaves it.</p>
+      </div>
+
+      <div class="card opt-card">
+        <h3>Handling</h3>
+        <fieldset>
+          <legend>In frames (60 = 1 s)</legend>
+          <div class="hand">
+            <label class="f">DAS <input type="number" id="hDas" min="1" max="20" step="0.1" inputmode="decimal"></label>
+            <label class="f">ARR <input type="number" id="hArr" min="0" max="5" step="0.1" inputmode="decimal"></label>
+            <label class="f">DCD <input type="number" id="hDcd" min="0" max="20" step="0.1" inputmode="decimal"></label>
+          </div>
+        </fieldset>
+        <div class="presets" id="presets">
+          <button type="button" class="chip" data-preset="mine">Comfortable · 10 / 2 / 1</button>
+          <button type="button" class="chip" data-preset="zero">0 ARR · 7 / 0 / 0</button>
+        </div>
+        <p class="note">DCD pauses a held left or right for that many frames after you rotate or a new piece spawns.</p>
+      </div>
+
+      <div class="card opt-card">
+        <h3>Sprint coach</h3>
+        <fieldset>
+          <legend>While you play Sprint</legend>
+          <label class="tog"><input type="checkbox" id="optCoach"> Show the suggested spot <small>Outlines where a clean, low stack would put each piece, looking one piece ahead. The outline turns solid when your piece lines up.</small></label>
+          <label class="tog"><input type="checkbox" id="optCoachKeys"> Show inputs for the suggestion <small>The fewest key presses to get there, shown under the board</small></label>
+        </fieldset>
+      </div>
+      </div>
+
+      <div class="opt-col">
+      <div class="card opt-card">
+        <h3>Drill</h3>
+        <fieldset>
+          <legend>Pieces in the drill</legend>
+          <div class="chips" id="pieceChips"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Options</legend>
+          <label class="tog"><input type="checkbox" id="optWeak"> Focus weak spots <small>Placements you miss or place slowly come up more often; ones you have down pat come up less</small></label>
+          <label class="tog"><input type="checkbox" id="optRepeat"> Repeat mistakes <small>A missed piece comes straight back once</small></label>
+          <label class="tog"><input type="checkbox" id="optHints"> Show optimal inputs <small>Shown before you place each piece</small></label>
+          <label class="tog"><input type="checkbox" id="opt180"> Count 180 rotate <small>Turn on if 180 is bound in TETR.IO</small></label>
+          <label class="tog"><input type="checkbox" id="optSlides"> Flag partial slides <small>Stopping a slide before the wall only works with ARR above 0</small></label>
+        </fieldset>
+        <p class="note">A placement is down pat after 3 tries with no recent mistakes and an average time under its target: 0.35 s plus 0.12 s per key, plus your DAS for each hold to the wall.</p>
+        <div><button type="button" class="btn ghost" id="clearWeak">Clear mastery history</button></div>
+      </div>
+
+      <div class="card opt-card">
+        <h3>Keys</h3>
+        <div class="binds" id="binds"></div>
+        <p class="note">Click a key, then press the new one. Esc cancels, Backspace clears the second key.</p>
+      </div>
+
+      <div class="card opt-card">
+        <h3>Display</h3>
+        <div class="opt-row">
+          <div class="opt-label"><b>Theme</b><small>System follows your device's light or dark setting.</small></div>
+          <div class="seg" id="themeSeg" role="group" aria-label="Theme">
+            <button type="button" data-theme-set="system">System</button>
+            <button type="button" data-theme-set="light">Light</button>
+            <button type="button" data-theme-set="dark">Dark</button>
+          </div>
+        </div>
+        <label class="tog"><input type="checkbox" id="optFx"> Visual effects <small>Drop trails, lock flashes and line-clear flashes. Always off when your device asks for reduced motion.</small></label>
+      </div>
+      </div>
+    </div>
+
+    <div class="card about" id="about">
+      <div class="card-head"><h3>About and your data</h3><span class="muted small">Beta · November 2026</span></div>
+      <p>40L Sprint Lab is a fan-made practice tool for TETR.IO's 40 lines mode. It isn't affiliated with or endorsed by TETR.IO.</p>
+      <dl class="about-list">
+        <dt>What's saved</dt>
+        <dd>Your settings, keys, Trainer progress and imported runs are saved in this browser only. Nobody else can see them, and they don't follow you to other devices.</dd>
+        <dt>TETR.IO data</dt>
+        <dd>Run history comes from TETR.IO's public stats for the username you enter, read straight from TETR.IO or through this site's small relay when your browser can't reach it directly. Nothing else is sent anywhere.</dd>
+        <dt>Claude plan</dt>
+        <dd>Nothing goes to Claude until you press Write my plan. Then a summary of your stats, Trainer progress and handling goes from your browser to Anthropic with your API key. The key is never sent anywhere else.</dd>
+      </dl>
+      <div class="about-actions">
+        <button type="button" class="btn ghost" id="backupBtn">Download a backup</button>
+        <label class="btn ghost file-btn" for="restoreFile">Restore a backup</label><input type="file" id="restoreFile" accept="application/json,.json" class="sr-only">
+        <button type="button" class="btn ghost danger" id="wipeBtn">Erase everything saved here</button>
+      </div>
+      <p class="upd-msg about-msg" id="wipeMsg" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- FINESSE CHART -->
+  <section class="panel" id="chart" role="tabpanel" aria-labelledby="t-chart" hidden>
+    <div class="sec-head">
+      <div>
+        <h2>Finesse chart</h2>
+        <p class="lede">The fewest key presses for every landing spot, starting from the TETR.IO spawn position. Hard drop is not counted. Every row is one orientation; every column is the leftmost column the piece covers.</p>
+      </div>
+      <label class="tog inline"><input type="checkbox" id="opt180b"> Count 180 rotate</label>
+    </div>
+    <div class="chips" id="chartChips"></div>
+    <div class="legend-row">
+      <span><span class="kc">←</span> tap</span>
+      <span><span class="kc">DAS ←</span> hold to the wall</span>
+      <span><span class="kc">↻</span> rotate CW</span>
+      <span><span class="kc">↺</span> rotate CCW</span>
+      <span><span class="kc">180</span> rotate 180</span>
+      <span><span class="kc">drop</span> no moves needed</span>
+    </div>
+    <div class="legend-row">
+      <span class="eyebrow">Your Trainer progress</span>
+      <span><i class="mdot st-mastered"></i>Down pat</span>
+      <span><i class="mdot st-slow"></i>Clean but slow</span>
+      <span><i class="mdot st-miss"></i>Recent mistakes</span>
+      <span><i class="mdot st-learning"></i>Learning</span>
+      <span><i class="mdot st-new"></i>Not tried yet</span>
+    </div>
+    <div class="table-scroll"><table class="fchart" id="fchart"></table></div>
+    <p class="muted small" id="chartFoot"></p>
+  </section>
+
+  <!-- RUN LOG -->
+  <section class="panel" id="log" role="tabpanel" aria-labelledby="t-log" hidden>
+    <div class="sec-head">
+      <div>
+        <h2>Run log</h2>
+        <p class="lede" id="logNote">Loading your TETR.IO runs…</p>
+      </div>
+
+    </div>
+    <div class="card imp" id="importCard">
+      <div class="card-head"><h3 id="impTitle">Your TETR.IO runs</h3><span class="muted small" id="impVia">from TETR.IO's public stats</span></div>
+      <form class="imp-form" id="impForm" novalidate>
+        <label class="f" for="impUser">TETR.IO username</label>
+        <div class="imp-row">
+          <input type="text" id="impUser" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="16" placeholder="username" enterkeyhint="go">
+          <button type="submit" class="btn" id="impGo">Fetch my runs</button>
+          <button type="button" class="btn ghost" id="impStop" hidden>Stop</button>
+        </div>
+      </form>
+      <div class="imp-prog" id="impProg" hidden><i></i></div>
+      <p class="upd-msg imp-msg" id="impMsg" role="status" aria-live="polite"></p>
+      <details class="imp-paste" id="impPasteBox">
+        <summary>Fetch not working? Copy and paste instead</summary>
+        <ol class="imp-steps">
+          <li><span class="no">1</span><div class="imp-col"><a id="impLink" class="btn ghost disabled" href="#" target="_blank" rel="noopener" aria-disabled="true">Open your latest 100 runs</a><p class="note">Type your username above first. This opens TETR.IO's public stats for that name in a new tab. Select everything on it (Ctrl+A or ⌘A) and copy it (Ctrl+C or ⌘C). In Firefox, click Raw Data first.</p></div></li>
+          <li><span class="no">2</span><div><label class="f" for="impPaste">Paste it here</label><textarea id="impPaste" rows="3" placeholder='Paste the page here. It starts with {"success":true'></textarea></div></li>
+        </ol>
+        <div class="imp-more" id="impMore" hidden><a id="impNext" class="btn ghost" href="#" target="_blank" rel="noopener">Open the next 100 (older)</a><span class="note">Paste that page into step 2 too, to go further back.</span></div>
+      </details>
+      <div class="imp-foot" id="impFoot" hidden><span class="note" id="impFootText"></span><button type="button" class="link" id="impClear">Remove imported runs</button></div>
+    </div>
+
+    <div class="hi-body" id="logBody"></div>
+  </section>
+
+  <!-- PLAN -->
+  <section class="panel" id="plan" role="tabpanel" aria-labelledby="t-plan" hidden>
+    <div class="sec-head">
+      <div>
+        <h2>Plan</h2>
+        <p class="lede" id="planNote">Loading your TETR.IO runs…</p>
+      </div>
+    </div>
+    <div class="hi-body" id="planBody"></div>
+    <div class="card" id="aiCard">
+      <div class="card-head"><h3>Custom plan from Claude</h3><span class="muted small">uses your Anthropic API key</span></div>
+      <p class="muted" id="aiIntro">Claude reads your stats, your Trainer progress, your last Sprint here and your handling, then writes a week of practice for you. One plan uses roughly 1,500 input and 1,500 output tokens on your API account.</p>
+      <form class="ai-key" id="aiKeyForm" novalidate>
+        <label class="f" for="aiKey">Anthropic API key</label>
+        <div class="imp-row">
+          <input type="password" id="aiKey" name="api-key" autocomplete="off" spellcheck="false" placeholder="sk-ant-…">
+          <button type="submit" class="btn ghost" id="aiKeySave">Use this key</button>
+        </div>
+        <label class="tog inline"><input type="checkbox" id="aiRemember"> Remember the key on this device</label>
+        <p class="note">Create a key in the <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">Anthropic Console</a>. It goes straight from your browser to Anthropic and nowhere else. Unless you tick Remember, it's forgotten when you close the tab.</p>
+      </form>
+      <div class="ai-keyset" id="aiKeySet" hidden><span class="muted small">Using key <b class="mono" id="aiKeyTail"></b></span><button type="button" class="link" id="aiForget">Forget key</button></div>
+      <div class="ai-opts" id="aiOpts" hidden>
+        <label class="f"><span>Model</span><select id="aiModel"></select></label>
+        <label class="f ai-note-f"><span>Anything Claude should know? <span class="opt">optional</span></span><input type="text" id="aiNote" maxlength="200" placeholder="e.g. 30 minutes a day, switching to 0 ARR"></label>
+      </div>
+      <div class="ai-actions"><button type="button" class="btn" id="aiBtn" disabled>Write my plan</button><button type="button" class="btn ghost" id="aiStop" hidden>Stop</button><span class="upd-msg" id="aiStatus" role="status" aria-live="polite"></span></div>
+      <div id="aiOut" class="ai-out"></div>
+    </div>
+
+    <div class="card" id="goalCard" hidden>
+      <div class="card-head"><h3>Your goal</h3><span class="muted small">the pace it takes, from your real runs</span></div>
+      <div class="goals-grid">
+        <div class="calc">
+          <label class="f">Target time (s)<input type="number" id="gTarget" step="0.5" min="10" max="300" inputmode="decimal"></label>
+          <small class="note">Your PB, pieces per run and keys per piece come from your TETR.IO runs.</small>
+        </div>
+        <div class="result" id="calcOut"></div>
+      </div>
+      <div class="table-scroll" style="margin-top:14px"><table class="ladder" id="ladder"></table></div>
+    </div>
+    <details class="card ref" id="guide">
+      <summary>Technique guide: handling, 0 ARR, finesse, stacking, reading ahead</summary>
+      <div class="plan-main">
+        <div class="card step">
+          <span class="no">1</span><h3>Set up your handling</h3>
+          <div class="body">
+            <p>Handling decides how fast a piece can physically move. It costs nothing to change and usually gives the quickest drop in time. Find it in TETR.IO under Config → Handling, then copy the same numbers into this site's Settings so the drills feel the same.</p>
+            <div class="table-scroll">
+              <table class="set-table">
+                <thead><tr><th>Setting</th><th>Suggested</th></tr></thead>
+                <tbody>
+                  <tr><th>ARR</th><td><b>0</b> frames. The piece reaches the wall the moment DAS charges. See step 2.</td></tr>
+                  <tr><th>SDF</th><td><b>max (∞)</b>. Soft drop becomes instant, so you never wait on it.</td></tr>
+                  <tr><th>DCD</th><td><b>0–1</b> frames. Go to 1 if a key you're still holding keeps throwing the next piece to the wall.</td></tr>
+                  <tr><th>DAS</th><td>Lower it 1 frame at a time. When quick taps start sliding all the way to the wall, go back up 1.</td></tr>
+                  <tr><th>180</th><td>Bind rotate 180 to a comfortable key. It saves a press on every flipped placement.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="muted small"><b>DCD</b> (DAS cut delay) pauses a held left or right for that many frames right after you rotate or a new piece spawns. Expect to be a little slower for a few days after any handling change.</p>
+          </div>
+        </div>
+
+        <div class="card step">
+          <span class="no">2</span><h3>Move to 0 ARR</h3>
+          <div class="body">
+            <p><b>It's faster.</b> Every frame of ARR adds about 17 ms per column a piece slides after DAS charges. At 0 ARR it is at the wall immediately.</p>
+            <p><b>It's more consistent.</b> At 0 ARR, holding a key always means "go to the wall". Every move is a tap or a full slide, so you never time a release or watch the piece travel, and finesse becomes exact.</p>
+            <ul>
+              <li>Change it in TETR.IO and in this site's Settings on the same day, and don't switch back. Expect a slower week.</li>
+              <li>The rule: spots one or two columns from spawn are taps; anything nearer a wall is a hold to the wall, plus one tap back if needed. The Finesse chart lists every case.</li>
+              <li>Leave <b>Flag partial slides</b> on in the Trainer. It marks every slide you stop short of the wall, a habit that stops working at 0 ARR.</li>
+              <li>Let go of left or right before you hard drop, unless the next piece is going to the same wall.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card step">
+          <span class="no">3</span><h3>Clean up your finesse</h3>
+          <div class="body">
+            <p>Finesse means reaching each spot with the fewest presses. Perfect finesse works out to about 3 key presses per piece including the hard drop (about 2.8 with 180). Every extra press adds up over 100 pieces.</p>
+            <ul>
+              <li>Use the Trainer for 10 minutes a day with <b>Focus weak spots</b> on. It times every placement and keeps serving the ones you miss or place slowly until they're down pat.</li>
+              <li>Most faults come from tapping 3 times where a hold to the wall plus one tap does it in 2, or rotating twice instead of using 180.</li>
+              <li>Watch keys per piece and finesse faults on the TETR.IO results screen, and re-import your runs to see them trend.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card step">
+          <span class="no">4</span><h3>Stack for speed</h3>
+          <div class="body">
+            <ul>
+              <li>Keep the stack flat and low. A tall stack doesn't make you faster; it only makes a misdrop more expensive.</li>
+              <li>Don't wait for an I piece with a messy board. Take the double or triple and keep moving.</li>
+              <li>Skip spins and tucks. Soft drops and slides cost time and keys and buy nothing in 40L.</li>
+              <li>Hold with a purpose, such as saving an I or dodging an awkward S or Z. Every hold is a press and a decision.</li>
+              <li>From about line 30, only place pieces that complete lines, so you finish with an almost empty board.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card step">
+          <span class="no">5</span><h3>Read ahead</h3>
+          <div class="body">
+            <p>Fast players rarely decide where a piece goes when it spawns; they decided while the last one was falling.</p>
+            <ul>
+              <li>While you place the current piece, pick a spot for the next one in the queue.</li>
+              <li>Play Sprint here with the suggested spot on and never stop moving. The pause chart afterwards shows exactly where you stalled.</li>
+              <li>Speed up only once those runs feel smooth. Pauses usually cost more time than slow fingers.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </details>
+  </section>
+</main>
+<footer class="wrap site-foot">
+  <p>40L Sprint Lab (beta) is a fan-made practice tool for TETR.IO players, not affiliated with or endorsed by TETR.IO. Your runs and progress stay in your browser. <button type="button" class="link" data-go="options">About your data</button> · <a href="https://github.com/mithilmishra/40Lsprintlab" target="_blank" rel="noopener">Source on GitHub</a></p>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden><span id="toastText"></span><button type="button" class="btn" id="toastBtn" hidden>Reload</button><button type="button" class="link" id="toastClose" aria-label="Dismiss">Dismiss</button></div>
+</body>
+</html>

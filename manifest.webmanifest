@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "40L Sprint Lab",
+  "short_name": "Sprint Lab",
+  "description": "Practice tools for TETR.IO 40 lines: a finesse trainer, coached sprints, your run history and a practice plan.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f1f0f6",
+  "theme_color": "#17142b",
+  "categories": ["games", "sports", "education"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

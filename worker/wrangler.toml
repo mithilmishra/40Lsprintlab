@@ -1,0 +1,8 @@
+# Cloudflare Worker config for the optional TETR.IO relay. Deploy with: npx wrangler deploy
+name = "tetrio-proxy"
+main = "tetrio-proxy.js"
+compatibility_date = "2025-06-01"
+
+[vars]
+# Comma-separated list of sites allowed to use this relay (no trailing slash).
+ALLOWED_ORIGINS = "https://mithilmishra.github.io"

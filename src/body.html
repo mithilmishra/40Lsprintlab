@@ -5,7 +5,7 @@
         <span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
         <div>
           <h1>40L Sprint Lab<span class="beta">Beta</span></h1>
-          <p class="sub">Finesse drills, sprints, a run log and a plan for any TETR.IO 40L player</p>
+          <p class="sub">Finesse drills, sprints, a run log and a plan for TETR.IO 40L.</p>
         </div>
       </div>
       <div class="pb-chip" id="pbChip">PB <b>—</b></div>
@@ -77,7 +77,7 @@
           <div class="stat"><div class="k">Pace</div><div class="v" id="stPps">—</div><div class="s">pieces per second</div></div>
           <div class="stat"><div class="k">Faults</div><div class="v" id="stFault">0</div><div class="s">extra keys or slides</div></div>
           <div class="stat"><div class="k">Misdrops</div><div class="v" id="stMiss">0</div><div class="s">wrong spot</div></div>
-          <div class="stat"><div class="k">Down pat</div><div class="v" id="stMastered">0</div><div class="s" id="stMasteredS">placements mastered</div></div>
+          <div class="stat"><div class="k">Mastered</div><div class="v" id="stMastered">0</div><div class="s" id="stMasteredS">placements mastered</div></div>
         </div>
 
         <div class="card feed-card">
@@ -110,7 +110,7 @@
             <div class="sp-overlay" id="spOverlay">
               <div class="ov-box">
                 <b id="spOvTitle">40L Sprint</b>
-                <span id="spOvSub">Clear 40 lines as fast as you can. Uses your keys and handling from Settings.</span>
+                <span id="spOvSub">Clear 40 lines as fast as you can.</span>
                 <div class="sp-ov-btns">
                   <button type="button" class="btn" id="spStartBtn">Start</button>
                   <button type="button" class="btn ghost" id="spJump" hidden>See analysis</button>
@@ -175,6 +175,19 @@
       </div>
 
       <div class="card opt-card">
+        <h3>Display</h3>
+        <div class="opt-row">
+          <div class="opt-label"><b>Theme</b><small>System follows your device's light or dark setting.</small></div>
+          <div class="seg" id="themeSeg" role="group" aria-label="Theme">
+            <button type="button" data-theme-set="system">System</button>
+            <button type="button" data-theme-set="light">Light</button>
+            <button type="button" data-theme-set="dark">Dark</button>
+          </div>
+        </div>
+        <label class="tog"><input type="checkbox" id="optFx"> Visual effects <small>Drop trails, lock flashes and line-clear flashes. Always off when your device asks for reduced motion.</small></label>
+      </div>
+
+      <div class="card opt-card">
         <h3>Handling</h3>
         <fieldset>
           <legend>In frames (60 = 1 s)</legend>
@@ -185,10 +198,8 @@
           </div>
         </fieldset>
         <div class="presets" id="presets">
-          <button type="button" class="chip" data-preset="mine">Comfortable · 10 / 2 / 1</button>
-          <button type="button" class="chip" data-preset="zero">0 ARR · 7 / 0 / 0</button>
+          <button type="button" class="chip" data-preset="rec">Recommended · 4 / 0 / 0</button>
         </div>
-        <p class="note">DCD pauses a held left or right for that many frames after you rotate or a new piece spawns.</p>
       </div>
 
       <div class="card opt-card">
@@ -210,13 +221,13 @@
         </fieldset>
         <fieldset>
           <legend>Options</legend>
-          <label class="tog"><input type="checkbox" id="optWeak"> Focus weak spots <small>Placements you miss or place slowly come up more often; ones you have down pat come up less</small></label>
+          <label class="tog"><input type="checkbox" id="optWeak"> Focus weak spots <small>Placements you miss or place slowly come up more often; ones you have mastered come up less</small></label>
           <label class="tog"><input type="checkbox" id="optRepeat"> Repeat mistakes <small>A missed piece comes straight back once</small></label>
           <label class="tog"><input type="checkbox" id="optHints"> Show optimal inputs <small>Shown before you place each piece</small></label>
           <label class="tog"><input type="checkbox" id="opt180"> Count 180 rotate <small>Turn on if 180 is bound in TETR.IO</small></label>
           <label class="tog"><input type="checkbox" id="optSlides"> Flag partial slides <small>Stopping a slide before the wall only works with ARR above 0</small></label>
         </fieldset>
-        <p class="note">A placement is down pat after 3 tries with no recent mistakes and an average time under its target: 0.35 s plus 0.12 s per key, plus your DAS for each hold to the wall.</p>
+        <p class="note">A placement counts as mastered after 3 tries with no recent mistakes and an average time under its target: 0.35 s plus 0.12 s per key, plus your DAS for each hold to the wall.</p>
         <div><button type="button" class="btn ghost" id="clearWeak">Clear mastery history</button></div>
       </div>
 
@@ -226,18 +237,6 @@
         <p class="note">Click a key, then press the new one. Esc cancels, Backspace clears the second key.</p>
       </div>
 
-      <div class="card opt-card">
-        <h3>Display</h3>
-        <div class="opt-row">
-          <div class="opt-label"><b>Theme</b><small>System follows your device's light or dark setting.</small></div>
-          <div class="seg" id="themeSeg" role="group" aria-label="Theme">
-            <button type="button" data-theme-set="system">System</button>
-            <button type="button" data-theme-set="light">Light</button>
-            <button type="button" data-theme-set="dark">Dark</button>
-          </div>
-        </div>
-        <label class="tog"><input type="checkbox" id="optFx"> Visual effects <small>Drop trails, lock flashes and line-clear flashes. Always off when your device asks for reduced motion.</small></label>
-      </div>
       </div>
     </div>
 
@@ -281,7 +280,7 @@
     </div>
     <div class="legend-row">
       <span class="eyebrow">Your Trainer progress</span>
-      <span><i class="mdot st-mastered"></i>Down pat</span>
+      <span><i class="mdot st-mastered"></i>Mastered</span>
       <span><i class="mdot st-slow"></i>Clean but slow</span>
       <span><i class="mdot st-miss"></i>Recent mistakes</span>
       <span><i class="mdot st-learning"></i>Learning</span>
@@ -367,84 +366,10 @@
       </div>
       <div class="table-scroll" style="margin-top:14px"><table class="ladder" id="ladder"></table></div>
     </div>
-    <details class="card ref" id="guide">
-      <summary>Technique guide: handling, 0 ARR, finesse, stacking, reading ahead</summary>
-      <div class="plan-main">
-        <div class="card step">
-          <span class="no">1</span><h3>Set up your handling</h3>
-          <div class="body">
-            <p>Handling decides how fast a piece can physically move. It costs nothing to change and usually gives the quickest drop in time. Find it in TETR.IO under Config → Handling, then copy the same numbers into this site's Settings so the drills feel the same.</p>
-            <div class="table-scroll">
-              <table class="set-table">
-                <thead><tr><th>Setting</th><th>Suggested</th></tr></thead>
-                <tbody>
-                  <tr><th>ARR</th><td><b>0</b> frames. The piece reaches the wall the moment DAS charges. See step 2.</td></tr>
-                  <tr><th>SDF</th><td><b>max (∞)</b>. Soft drop becomes instant, so you never wait on it.</td></tr>
-                  <tr><th>DCD</th><td><b>0–1</b> frames. Go to 1 if a key you're still holding keeps throwing the next piece to the wall.</td></tr>
-                  <tr><th>DAS</th><td>Lower it 1 frame at a time. When quick taps start sliding all the way to the wall, go back up 1.</td></tr>
-                  <tr><th>180</th><td>Bind rotate 180 to a comfortable key. It saves a press on every flipped placement.</td></tr>
-                </tbody>
-              </table>
-            </div>
-            <p class="muted small"><b>DCD</b> (DAS cut delay) pauses a held left or right for that many frames right after you rotate or a new piece spawns. Expect to be a little slower for a few days after any handling change.</p>
-          </div>
-        </div>
-
-        <div class="card step">
-          <span class="no">2</span><h3>Move to 0 ARR</h3>
-          <div class="body">
-            <p><b>It's faster.</b> Every frame of ARR adds about 17 ms per column a piece slides after DAS charges. At 0 ARR it is at the wall immediately.</p>
-            <p><b>It's more consistent.</b> At 0 ARR, holding a key always means "go to the wall". Every move is a tap or a full slide, so you never time a release or watch the piece travel, and finesse becomes exact.</p>
-            <ul>
-              <li>Change it in TETR.IO and in this site's Settings on the same day, and don't switch back. Expect a slower week.</li>
-              <li>The rule: spots one or two columns from spawn are taps; anything nearer a wall is a hold to the wall, plus one tap back if needed. The Finesse chart lists every case.</li>
-              <li>Leave <b>Flag partial slides</b> on in the Trainer. It marks every slide you stop short of the wall, a habit that stops working at 0 ARR.</li>
-              <li>Let go of left or right before you hard drop, unless the next piece is going to the same wall.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="card step">
-          <span class="no">3</span><h3>Clean up your finesse</h3>
-          <div class="body">
-            <p>Finesse means reaching each spot with the fewest presses. Perfect finesse works out to about 3 key presses per piece including the hard drop (about 2.8 with 180). Every extra press adds up over 100 pieces.</p>
-            <ul>
-              <li>Use the Trainer for 10 minutes a day with <b>Focus weak spots</b> on. It times every placement and keeps serving the ones you miss or place slowly until they're down pat.</li>
-              <li>Most faults come from tapping 3 times where a hold to the wall plus one tap does it in 2, or rotating twice instead of using 180.</li>
-              <li>Watch keys per piece and finesse faults on the TETR.IO results screen, and re-import your runs to see them trend.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="card step">
-          <span class="no">4</span><h3>Stack for speed</h3>
-          <div class="body">
-            <ul>
-              <li>Keep the stack flat and low. A tall stack doesn't make you faster; it only makes a misdrop more expensive.</li>
-              <li>Don't wait for an I piece with a messy board. Take the double or triple and keep moving.</li>
-              <li>Skip spins and tucks. Soft drops and slides cost time and keys and buy nothing in 40L.</li>
-              <li>Hold with a purpose, such as saving an I or dodging an awkward S or Z. Every hold is a press and a decision.</li>
-              <li>From about line 30, only place pieces that complete lines, so you finish with an almost empty board.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="card step">
-          <span class="no">5</span><h3>Read ahead</h3>
-          <div class="body">
-            <p>Fast players rarely decide where a piece goes when it spawns; they decided while the last one was falling.</p>
-            <ul>
-              <li>While you place the current piece, pick a spot for the next one in the queue.</li>
-              <li>Play Sprint here with the suggested spot on and never stop moving. The pause chart afterwards shows exactly where you stalled.</li>
-              <li>Speed up only once those runs feel smooth. Pauses usually cost more time than slow fingers.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </details>
   </section>
 </main>
 <footer class="wrap site-foot">
-  <p>40L Sprint Lab (beta) is a fan-made practice tool for TETR.IO players, not affiliated with or endorsed by TETR.IO. Your runs and progress stay in your browser. <button type="button" class="link" data-go="options">About your data</button> · <a href="https://github.com/mithilmishra/40Lsprintlab" target="_blank" rel="noopener">Source on GitHub</a></p>
+  <p>40L Sprint Lab (beta) is a fan-made practice tool for TETR.IO players, not affiliated with or endorsed by TETR.IO. Your runs and progress stay in your browser.</p>
+  <p class="foot-links"><button type="button" class="link" data-go="options">About your data</button><span aria-hidden="true">·</span><a href="https://github.com/mithilmishra/40Lsprintlab" target="_blank" rel="noopener">Source on GitHub</a></p>
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden><span id="toastText"></span><button type="button" class="btn" id="toastBtn" hidden>Reload</button><button type="button" class="link" id="toastClose" aria-label="Dismiss">Dismiss</button></div>

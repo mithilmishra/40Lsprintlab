@@ -541,3 +541,7 @@ select { font-family: var(--font-body); }
 }
 @media (prefers-reduced-motion: reduce) { .imp-prog i { animation-duration: 3s; } }
 html:not(.first-visit) #welcome { display: none; }
+#logNote, #planNote { max-width: none; }
+.site-foot { display: flex; flex-direction: column; gap: 6px; }
+.foot-links { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.foot-links .link { font-size: inherit; }

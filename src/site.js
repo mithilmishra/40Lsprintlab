@@ -12,6 +12,7 @@ function toast(text, action) {
 }
 function hideToast() { const t = $('#toast'); t.classList.remove('show'); setTimeout(() => { if (!t.classList.contains('show')) t.hidden = true; }, 220); }
 function initSite() {
+  [cv, spCv, $('#spHold'), $('#spNext')].forEach(c => c && c.addEventListener('contextrestored', repaintAll));
   $('#storeNote').hidden = STORE_OK;
   if (window.matchMedia && matchMedia('(pointer: coarse)').matches) $('#ovTitle').textContent = $('#ovTitle').textContent.replace(/^Click/, 'Tap');
 

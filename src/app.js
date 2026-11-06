@@ -26,8 +26,8 @@ function sanitizeKeys(k) {
   return out;
 }
 let keys = sanitizeKeys(LS.get('sl.keys', null));
-const PRESETS = { mine: { das: 10, arr: 2, dcd: 1 }, zero: { das: 7, arr: 0, dcd: 0 } };
-let handling = Object.assign({}, PRESETS.mine, LS.get('sl.handling', {}));
+const PRESETS = { rec: { das: 4, arr: 0, dcd: 0 } };
+let handling = Object.assign({}, PRESETS.rec, LS.get('sl.handling', {}));
 let opts = Object.assign({ pieces: PIECES.slice(), weak: true, repeat: true, hints: false, use180: false, flagSlides: true, coach: true, coachKeys: false, fx: true }, LS.get('sl.opts', {}));
 opts.pieces = (opts.pieces || []).filter(p => PIECES.includes(p));
 if (!opts.pieces.length) opts.pieces = PIECES.slice();
@@ -84,7 +84,7 @@ function nextPiece() {
   }
   return bag.pop();
 }
-// Mastery: a placement is down pat after 3+ tries with few recent mistakes and an average clean time under its target.
+// Mastery: a placement is mastered after 3+ tries with few recent mistakes and an average clean time under its target.
 function targetTime(t) {
   const das = t.path.filter(a => a === 'DL' || a === 'DR').length;
   return 0.35 + 0.12 * t.path.length + das * (fr(handling.das) + 5 * fr(handling.arr)) / 1000;
@@ -426,6 +426,12 @@ function drawNext() {
     '<div><div class="eyebrow">Up next</div><div class="fi-label">' + t.label + (t.repeat ? ' (again)' : '') + '</div></div>' +
     '<span class="un-shape">' + miniSVG(t.p, t.r) + '</span>';
 }
+// Browsers can drop a canvas's pixels while the tab is in the background, and frames are only drawn
+// when something changes, so force a full repaint whenever the page comes back.
+function repaintAll() { themeVer++; }
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') repaintAll(); });
+window.addEventListener('pageshow', repaintAll);
+window.addEventListener('focus', repaintAll);
 let logicT = 0;
 function evT(e) {
   const p = performance.now();
@@ -468,7 +474,7 @@ function renderStats() {
   let mastered = 0, total = 0;
   for (const p of opts.pieces) for (const t of targets[p]) { total++; if (masteryOf(t) === 'mastered') mastered++; }
   setText('stMastered', mastered + '/' + total);
-  setText('stMasteredS', 'placements down pat');
+  setText('stMasteredS', 'placements mastered');
 }
 function renderFeed() {
   const ol = $('#feed');
@@ -476,7 +482,7 @@ function renderFeed() {
   ol.innerHTML = feed.map(f => {
     let pill, seq;
     if (f.result === 'clean') {
-      pill = f.downPat ? '<span class="pill good">Down pat</span>' : f.dt > f.target ? '<span class="pill warn">Clean, slow</span>' : '<span class="pill good">Clean · ' + f.presses + '</span>';
+      pill = f.downPat ? '<span class="pill good">Mastered</span>' : f.dt > f.target ? '<span class="pill warn">Clean, slow</span>' : '<span class="pill good">Clean · ' + f.presses + '</span>';
       seq = '<span>You ' + keysHTML(f.you) + '</span>';
     } else if (f.result === 'slide') {
       pill = '<span class="pill warn">Partial slide</span>';
@@ -630,7 +636,7 @@ for (const k of Object.keys(hIds)) {
   el.value = handling[k];
   el.addEventListener('change', () => {
     let v = parseFloat(el.value);
-    if (!isFinite(v)) v = PRESETS.mine[k];
+    if (!isFinite(v)) v = PRESETS.rec[k];
     v = Math.round(Math.min(hLim[k][1], Math.max(hLim[k][0], v)) * 10) / 10;
     setHandling({ [k]: v });
   });
@@ -681,7 +687,7 @@ $('#clearWeak').addEventListener('click', () => {
 });
 
 /* ---------- finesse chart ---------- */
-const MASTERY_LABEL = { mastered: 'Down pat', slow: 'Clean but slow', miss: 'Recent mistakes', learning: 'Learning (under 3 tries)', new: 'Not tried yet' };
+const MASTERY_LABEL = { mastered: 'Mastered', slow: 'Clean but slow', miss: 'Recent mistakes', learning: 'Learning (under 3 tries)', new: 'Not tried yet' };
 let chartPiece = 'T';
 function miniSVG(p, r) {
   const cells = SHAPES[p][r];
@@ -724,7 +730,7 @@ function renderFChart() {
     html += '</tr>';
   }
   $('#fchart').innerHTML = html + '</tbody>';
-  $('#chartFoot').textContent = p + ': ' + n + ' landing spots, ' + (sum / n).toFixed(2) + ' presses on average, never more than ' + max + (opts.use180 ? ' (with 180)' : ' (without 180)') + '. You have ' + md + ' of ' + n + ' down pat in the Trainer.';
+  $('#chartFoot').textContent = p + ': ' + n + ' landing spots, ' + (sum / n).toFixed(2) + ' presses on average, never more than ' + max + (opts.use180 ? ' (with 180)' : ' (without 180)') + '. You have ' + md + ' of ' + n + ' mastered in the Trainer.';
 }
 
 /* ---------- run log + plan (TETR.IO data) ---------- */
@@ -922,7 +928,7 @@ const LEVER = {
   finesse: n => ({
     title: 'Clean up finesse',
     why: 'A typical run has ' + Math.round(n.ff) + ' finesse faults and ' + Math.round(100 * (1 - n.perf)) + '% of pieces are not placed with the fewest presses. That number has barely moved since ' + monLabel(RL.first.m) + ' (' + Math.round(RL.first.ff) + ' then).',
-    todo: 'Ten minutes a day in the Trainer with Focus weak spots on. It now times every placement and keeps serving the ones you miss or place slowly until they are down pat. Removing every fault would be worth about ' + fmtS(n.ff / n.kps) + ' s.',
+    todo: 'Ten minutes a day in the Trainer with Focus weak spots on. It now times every placement and keeps serving the ones you miss or place slowly until they are mastered. Removing every fault would be worth about ' + fmtS(n.ff / n.kps) + ' s.',
     tab: 'trainer', btn: 'Open Trainer',
   }),
   pieces: n => ({
@@ -957,17 +963,7 @@ function renderPlan() {
       return '<li><div class="f-head"><span class="no">' + (i + 1) + '</span><b>' + f.title + '</b><span class="cost">≈' + fmtS(l.s) + ' s</span></div>' +
         '<p>' + f.why + '</p><p class="todo"><b>Do this:</b> ' + f.todo + '</p>' + (f.tab ? '<button type="button" class="btn ghost f-go" data-go="' + f.tab + '">' + f.btn + '</button>' : '') + '</li>';
     }).join('') +
-    '</ol><div class="lever-total">All four together would put your typical run near <b>' + fmtS(RL.comb) + ' s</b>. The estimates overlap, so treat that as a direction, not a promise.</div></div>';
-
-  // Session built around the top focus
-  const topKey = RL.lev[0].key;
-  const sess = topKey === 'finesse'
-    ? [['12 min', 'Trainer, Focus weak spots on', 'Hints off. Stay until the Mastered count stops climbing.'], ['8 min', 'Calm TETR.IO runs', 'About 10% slower than your typical pace with under 20 finesse faults.'], ['12 min', 'Push runs', 'Normal pace. Restart bad starts right away.'], ['3 min', 'Update your runs', 'Check whether faults per run moved.']]
-    : topKey === 'pauses'
-      ? [['5 min', 'Trainer warm-up', 'Accuracy over speed.'], ['10 min', 'Sprint here, suggested spot on', 'Never stop moving. Check the pause chart after each run.'], ['15 min', 'TETR.IO flow runs', 'Steady pace you can hold all 40 lines; look one piece ahead.'], ['5 min', 'Update your runs', 'Compare keys per second with your fastest runs.']]
-      : [['5 min', 'Trainer warm-up', 'Accuracy over speed.'], ['10 min', 'Sprint here', 'Practise the ' + (topKey === 'pieces' ? 'clean finish from line 30' : 'no-hold habit') + '.'], ['15 min', 'TETR.IO push runs', 'Restart bad starts right away.'], ['5 min', 'Update your runs', 'Check the number you are working on.']];
-  h += '<div class="sp-grid"><div class="card"><div class="card-head"><h3>Today\'s 35 minutes</h3><span class="muted small">built around "' + LEVER[topKey](n).title.toLowerCase() + '"</span></div><ol class="session">' +
-    sess.map(x => '<li><span class="min">' + x[0] + '</span><span><b>' + x[1] + '</b>' + x[2] + '</span></li>').join('') + '</ol></div>';
+    '</ol><div class="lever-total">All four together would put your typical run near <b>' + fmtS(RL.comb) + ' s</b>. Note that the estimates overlap.</div></div>';
 
   const rows = [
     ['Time', fmtS(RL.T.t) + ' s', fmtS(RL.M.t) + ' s'], ['Pieces per second', RL.T.pps.toFixed(2), RL.M.pps.toFixed(2)], ['Keys per second', RL.T.kps.toFixed(2), RL.M.kps.toFixed(2)],
@@ -975,7 +971,7 @@ function renderPlan() {
   ];
   h += '<div class="card"><div class="card-head"><h3>What your fastest runs do differently</h3><span class="muted small">last ' + RL.L.length + ' runs</span></div><div class="table-scroll"><table class="data-table"><thead><tr><th></th><th>Fastest ' + RL.top.length + '</th><th>Middle half</th></tr></thead><tbody>' +
     rows.map(r => '<tr><td>' + r[0] + '</td><td class="mono">' + r[1] + '</td><td class="mono">' + r[2] + '</td></tr>').join('') + '</tbody></table></div>' +
-    '<p class="muted small" style="margin-top:10px">Of the difference between your fast and slow runs, ' + Math.round(RL.shKps) + '% comes from key speed, ' + Math.round(RL.shPc) + '% from pieces used and ' + Math.round(RL.shKpp) + '% from keys per piece.</p></div></div>';
+    '<p class="muted small" style="margin-top:10px">Of the difference between your fast and slow runs, ' + Math.round(RL.shKps) + '% comes from key speed, ' + Math.round(RL.shPc) + '% from pieces used and ' + Math.round(RL.shKpp) + '% from keys per piece.</p></div>';
 
   const kpsUp = 100 * (n.kps / RL.first.kps - 1), kppCh = 100 * (n.kpp / RL.first.kpp - 1);
   let c1 = '<div class="card"><h3>Your progress so far came from speed</h3><b class="big">' + RL.first.kps.toFixed(2) + ' → ' + n.kps.toFixed(2) + ' keys/s</b>' +
@@ -1580,7 +1576,7 @@ document.querySelectorAll('#spTouch button').forEach(b => {
   b.addEventListener('pointerup', up); b.addEventListener('pointercancel', up); b.addEventListener('pointerleave', up);
   b.addEventListener('contextmenu', e => e.preventDefault());
 });
-spShowOverlay('40L Sprint', 'Clear 40 lines as fast as you can. Uses your keys and handling from Settings.', { btn: 'Start' });
+spShowOverlay('40L Sprint', 'Clear 40 lines as fast as you can.', { btn: 'Start' });
 function renderSprintContext() { if (spLast) renderAnalysis(spLast); }
 
 /* ---------- tabs ---------- */

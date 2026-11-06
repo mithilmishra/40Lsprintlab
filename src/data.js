@@ -57,12 +57,11 @@ function onRunData(D) {
   if (RL) { renderLogTab(); renderPlan(); }
   else {
     $('#logBody').innerHTML = '';
-    $('#planBody').innerHTML = '<div class="card plan-empty"><div><h3>Your plan starts with your runs</h3><p class="muted">Fetch your TETR.IO 40L history and this tab sets a next PB goal and a typical-run goal, and points at the skill that will cut the most time. Until then, the technique guide below is a good place to start.</p></div><button type="button" class="btn" data-go="log">Fetch your runs</button></div>';
-    if ($('#guide')) $('#guide').open = true;
+    $('#planBody').innerHTML = '<div class="card plan-empty"><div><h3>Your plan starts with your runs</h3><p class="muted">Fetch your TETR.IO 40L history and this tab sets a next PB goal and a typical-run goal, and points at the skill that will cut the most time.</p></div><button type="button" class="btn" data-go="log">Fetch your runs</button></div>';
     $('#goalCard').hidden = true;
     const few = D && D.runs && D.runs.length;
     $('#logNote').textContent = few ? 'You need at least 10 finished runs for stats (' + D.runs.length + ' so far).' : 'Enter your TETR.IO username below to pull in your 40L runs, trends and a plan.';
-    $('#planNote').textContent = 'Fetch your runs in the Run log to get a plan built from them. The technique guide at the bottom works for anyone.';
+    $('#planNote').textContent = 'Fetch your runs in the Run log to get a plan built from them.';
   }
   renderSprintContext(); renderAiCard();
 }

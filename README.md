@@ -98,5 +98,3 @@ Commit the rebuilt files. `config.js` is the one file you can edit without rebui
 40L Sprint Lab is a fan-made tool. It isn't affiliated with or endorsed by TETR.IO. Run data comes from the public [TETRA CHANNEL API](https://tetr.io/about/api).
 
 IBM Plex Sans, IBM Plex Mono and Chakra Petch are used under the SIL Open Font License; see `assets/fonts/OFL.txt`.
-
-The site's own code has no license file yet. Add one (for example MIT) if you want others to reuse it.

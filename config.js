@@ -5,5 +5,5 @@ window.SPRINTLAB_CONFIG = {
   // its address here, for example:
   //   proxy: 'https://tetrio-proxy.your-name.workers.dev',
   // Leave it empty to try TETR.IO directly and fall back to copy-and-paste.
-  proxy: '',
+  proxy: 'https://tetrio-proxy.mithil-485.workers.dev',
 };
